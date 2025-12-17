@@ -81,7 +81,7 @@ function App() {
           <Route path="/ai-chat" element={<AIChatPage />} />
           <Route path="/ai-image" element={<AIImagePage />} />
           <Route path="/ai-video" element={<AIVideoPage />} />
-          <Route path="/ai-coding" element={<AICodingPage />} />
+          <Route path="/ai-coding" element={<AICodingPage theme={theme} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />

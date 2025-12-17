@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Layers, Zap, Shield, Cpu, CheckCircle2 } from 'lucide-react';
 import { Theme } from '../types';
+import { NewsletterCTA } from '../components/NewsletterCTA';
 
 interface AICodingProps {
   theme: Theme;
@@ -103,15 +104,15 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-bg-dark dark:to-slate-900 pt-20">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        
+
         {/* Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-5xl font-bold font-display bg-gradient-to-r from-brand-start to-brand-end text-transparent bg-clip-text mb-6"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -119,7 +120,7 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
           >
             Why InterGen AI Code Generator?
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -130,19 +131,19 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
         </motion.div>
 
         {/* Main Features Grid */}
-        <motion.div 
+        <motion.div
           className="grid md:grid-cols-2 gap-8 mb-20"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {/* Feature 1 */}
-          <motion.div 
+          <motion.div
             className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700"
             variants={cardVariants}
             whileHover="hover"
           >
-            <motion.div 
+            <motion.div
               className="h-14 w-14 bg-brand-start/10 rounded-xl flex items-center justify-center mb-6 text-brand-start"
               variants={iconVariants}
               whileHover="hover"
@@ -156,12 +157,12 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
           </motion.div>
 
           {/* Feature 2 */}
-          <motion.div 
+          <motion.div
             className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700"
             variants={cardVariants}
             whileHover="hover"
           >
-            <motion.div 
+            <motion.div
               className="h-14 w-14 bg-brand-end/10 rounded-xl flex items-center justify-center mb-6 text-brand-end"
               variants={iconVariants}
               whileHover="hover"
@@ -175,12 +176,12 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
           </motion.div>
 
           {/* Feature 3 */}
-          <motion.div 
+          <motion.div
             className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700"
             variants={cardVariants}
             whileHover="hover"
           >
-            <motion.div 
+            <motion.div
               className="h-14 w-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-500"
               variants={iconVariants}
               whileHover="hover"
@@ -194,12 +195,12 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
           </motion.div>
 
           {/* Feature 4 */}
-          <motion.div 
+          <motion.div
             className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700"
             variants={cardVariants}
             whileHover="hover"
           >
-            <motion.div 
+            <motion.div
               className="h-14 w-14 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6 text-purple-500"
               variants={iconVariants}
               whileHover="hover"
@@ -214,13 +215,13 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
         </motion.div>
 
         {/* Benefits List */}
-        <motion.div 
+        <motion.div
           className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-8 md:p-12"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <motion.h3 
+          <motion.h3
             className="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -228,7 +229,7 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
           >
             The InterGen Code Advantage
           </motion.h3>
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             variants={containerVariants}
             initial="hidden"
@@ -242,8 +243,8 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
               'Code Refactoring',
               'Framework Integration'
             ].map((benefit, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className="flex items-center space-x-3"
                 variants={listItemVariants}
                 whileHover={{ x: 10, transition: { duration: 0.2 } }}
@@ -260,6 +261,11 @@ export const AICoding: React.FC<AICodingProps> = ({ theme }) => {
             ))}
           </motion.div>
         </motion.div>
+
+        {/* Newsletter CTA */}
+        <div className="mt-16">
+          <NewsletterCTA />
+        </div>
       </div>
     </div>
   );
