@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { IntegrationsShowcase } from './IntegrationsShowcase';
 import { ParticleBackground } from './ParticleBackground';
 import { GradualSpacing } from './ui/gradual-spacing';
@@ -10,6 +11,7 @@ const models = ['ChatGPT', 'ClaudeAI', 'Gemini', 'Llama', 'DeepSeek', 'Qwen'];
 
 export const Hero: React.FC = () => {
   const [activeModel, setActiveModel] = useState('Anthropic');
+  const navigate = useNavigate();
 
   return (
     <section className="relative min-h-screen sm:min-h-[calc(100vh-4rem)] flex items-center pt-16 pb-8 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-12 overflow-hidden">
@@ -45,7 +47,10 @@ Intelligence.`}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none justify-center lg:justify-start mt-6">
-            <button className="px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-brand-start to-brand-end text-white font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-brand-start/25 hover:-translate-y-1 active:translate-y-0 transition-all duration-200 w-full sm:w-auto touch-manipulation">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-brand-start to-brand-end text-white font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-brand-start/25 hover:-translate-y-1 active:translate-y-0 transition-all duration-200 w-full sm:w-auto touch-manipulation"
+            >
               Get Started
             </button>
             <button className="px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-base sm:text-lg hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-700 transition-all duration-200 flex items-center justify-center gap-2 group w-full sm:w-auto touch-manipulation">

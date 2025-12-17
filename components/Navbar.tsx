@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon, MessageSquare, Image, Video, Code, DollarSign, ChevronRight } from 'lucide-react';
 import { Theme } from '../types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser, useClerk } from '@clerk/clerk-react';
 
 interface NavbarProps {
   theme: Theme;
@@ -12,6 +13,9 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -36,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
     boxShadow:
       "0 0 6px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.08), inset 3px 3px 0.5px -3px rgba(255,255,255,0.2), inset -3px -3px 0.5px -3px rgba(255,255,255,0.1), inset 1px 1px 1px -0.5px rgba(255,255,255,0.3), inset -1px -1px 1px -0.5px rgba(255,255,255,0.15), inset 0 0 6px 6px rgba(255,255,255,0.05), inset 0 0 2px 2px rgba(255,255,255,0.02), 0 0 12px rgba(0,0,0,0.1)",
   };
-  
+
   const menuVariants = {
     hidden: {
       x: '100%',
@@ -61,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
       }
     }
   };
-  
+
   const backdropVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -96,31 +100,53 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
-            <button
-              className="px-3 py-1.5 text-sm font-medium rounded-full bg-gradient-to-r from-[#64E1FF]/80 to-[#009DFF]/80 text-white shadow-[0_0_8px_-3px_#64E1FF/50] hover:shadow-[0_0_12px_-5px_#64E1FF/60] hover:scale-105 transition-all duration-300"
-              onClick={() => window.location.href = '/login'}
-            >
-              Login
-            </button>
-            <button
-              className={`liquid-glass-button relative inline-flex h-10 cursor-pointer outline-none overflow-hidden transition-all duration-300 ease-out text-sm font-medium border rounded-full pr-6 pl-6 shadow-lg backdrop-blur-xl items-center justify-center
-                ${theme === 'light'
-                  ? 'bg-gradient-to-r from-gray-100 to-gray-200 border-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300'
-                  : 'text-white/90 from-white/10 to-white/5 border-white/15 hover:from-white/15 hover:to-white/10'
-                }
-              `}
-              style={theme === 'light' ? lightThemeStyles : darkThemeStyles}
-            >
-              <div
-                className={`absolute inset-0 rounded-full overflow-hidden pointer-events-none
-                  ${theme === 'light'
-                    ? 'bg-gradient-to-br via-transparent from-black/5 to-black/10'
-                    : 'bg-gradient-to-br via-transparent from-white/8 to-white/3'
-                  }
-                `}
-              />
-              <span className="relative z-10">Let's get started</span>
-            </button>
+            {isLoaded && user ? (
+              <div className="flex items-center gap-3">
+                <span className={`text-sm font-medium ${theme === 'light' ? 'text-slate-700' : 'text-slate-300'}`}>
+                  {user.emailAddresses?.[0]?.emailAddress || user.primaryEmailAddress?.emailAddress || 'User'}
+                </span>
+                <button
+                  onClick={() => {
+                    signOut();
+                    navigate('/login');
+                  }}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-300 ${theme === 'light'
+                    ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                    : 'bg-red-900/20 text-red-400 hover:bg-red-900/30'
+                    }`}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  className="px-3 py-1.5 text-sm font-medium rounded-full bg-gradient-to-r from-[#64E1FF]/80 to-[#009DFF]/80 text-white shadow-[0_0_8px_-3px_#64E1FF/50] hover:shadow-[0_0_12px_-5px_#64E1FF/60] hover:scale-105 transition-all duration-300"
+                  onClick={() => window.location.href = '/login'}
+                >
+                  Login
+                </button>
+                <button
+                  className={`liquid-glass-button relative inline-flex h-10 cursor-pointer outline-none overflow-hidden transition-all duration-300 ease-out text-sm font-medium border rounded-full pr-6 pl-6 shadow-lg backdrop-blur-xl items-center justify-center
+                    ${theme === 'light'
+                      ? 'bg-gradient-to-r from-gray-100 to-gray-200 border-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300'
+                      : 'text-white/90 from-white/10 to-white/5 border-white/15 hover:from-white/15 hover:to-white/10'
+                    }
+                  `}
+                  style={theme === 'light' ? lightThemeStyles : darkThemeStyles}
+                >
+                  <div
+                    className={`absolute inset-0 rounded-full overflow-hidden pointer-events-none
+                      ${theme === 'light'
+                        ? 'bg-gradient-to-br via-transparent from-black/5 to-black/10'
+                        : 'bg-gradient-to-br via-transparent from-white/8 to-white/3'
+                      }
+                    `}
+                  />
+                  <span className="relative z-10">Let's get started</span>
+                </button>
+              </>
+            )}
           </div>
           <div className="md:hidden flex items-center gap-4">
             <button
@@ -129,7 +155,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
-            
+
             <button
               className="group relative inline-flex items-center justify-center rounded-full p-3 transition-all duration-300 hover:bg-white/10 active:scale-95 border border-white/5 backdrop-blur-md shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] bg-white/5"
               onClick={() => setMobileMenuOpen(true)}
@@ -143,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -166,29 +192,29 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               <div className="p-5 flex items-center justify-between border-b border-white/10">
                 <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                    <path d="M12 12L22 7" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M12 12V22" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M12 12L2 7" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M2 17L12 12" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M22 17L12 12" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+                    <path d="M12 12L22 7" stroke="currentColor" strokeWidth="2" />
+                    <path d="M12 12V22" stroke="currentColor" strokeWidth="2" />
+                    <path d="M12 12L2 7" stroke="currentColor" strokeWidth="2" />
+                    <path d="M2 17L12 12" stroke="currentColor" strokeWidth="2" />
+                    <path d="M22 17L12 12" stroke="currentColor" strokeWidth="2" />
                   </svg>
                   AI Studio
                 </h2>
                 <div className='flex items-center gap-2'>
-                    <button
-                      onClick={toggleTheme}
-                      className={`p-2 transition-colors rounded-full ${theme === 'light' ? 'bg-white/10 text-slate-400 hover:text-white' : 'bg-white/10 text-slate-400 hover:text-white'}`}
-                      aria-label="Toggle Theme"
-                    >
-                      {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-                    </button>
-                    <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-400 hover:text-white transition-colors bg-white/10 rounded-full">
-                      <X size={18} />
-                    </button>
+                  <button
+                    onClick={toggleTheme}
+                    className={`p-2 transition-colors rounded-full ${theme === 'light' ? 'bg-white/10 text-slate-400 hover:text-white' : 'bg-white/10 text-slate-400 hover:text-white'}`}
+                    aria-label="Toggle Theme"
+                  >
+                    {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+                  </button>
+                  <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-400 hover:text-white transition-colors bg-white/10 rounded-full">
+                    <X size={18} />
+                  </button>
                 </div>
               </div>
-              
+
               <div className="flex-grow p-5 flex flex-col gap-2">
                 {navLinks.map((link) => (
                   <Link
@@ -201,13 +227,13 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                       <link.icon size={20} className="text-slate-400" />
                       <span className="font-medium">{link.name}</span>
                     </div>
-                    <ChevronRight size={16} className="text-slate-500 group-hover:translate-x-1 transition-transform"/>
+                    <ChevronRight size={16} className="text-slate-500 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 ))}
               </div>
 
               <div className="p-5 border-t border-white/10 flex flex-col gap-4">
-                 <button
+                <button
                   onClick={() => {
                     window.location.href = '/login';
                     setMobileMenuOpen(false);
@@ -217,11 +243,18 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                   Login
                 </button>
                 <button
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    if (isLoaded && user) {
+                      navigate('/dashboard');
+                    } else {
+                      navigate('/login');
+                    }
+                    setMobileMenuOpen(false);
+                  }}
                   className="w-full text-center py-2.5 rounded-lg text-white bg-[#1C64F2] hover:bg-[#1C64F2]/90 transition-colors duration-200 flex items-center justify-center gap-2"
                 >
                   Get Started
-                  <ChevronRight size={16}/>
+                  <ChevronRight size={16} />
                 </button>
               </div>
             </motion.div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ClerkProvider } from '@clerk/clerk-react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Features } from './components/Features';
@@ -28,6 +29,9 @@ import { ImageIcon } from 'lucide-react';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import Dashboard from './backend/dashboard';
+import Login from './backend/login';
+import Register from './backend/register';
 
 function App() {
   const [theme, setTheme] = useState<Theme>('light');
@@ -52,43 +56,54 @@ function App() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const PUBLISHABLE_KEY = 'pk_test_b24tcGxhdHlwdXMtODAuY2xlcmsuYWNjb3VudHMuZGV2JA';
+
+  if (!PUBLISHABLE_KEY) {
+    throw new Error("Missing Publishable Key");
+  }
+
   return (
-    <LanguageProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <Routes>
-          <Route path="/" element={
-            <>
-              <Hero />
-              <TrustedBy />
-              <Features />
-              {/* <HowItWorks /> */}
-              <UseCases />
-              <PricingSection11 />
-            </>
-          } />
-          <Route path="/features" element={<FeaturesPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/changelog" element={<ChangelogPage />} />
-          <Route path="/demo" element={<DemoPage />} />
-          <Route path="/use-cases" element={<UseCasesPage />} />
-          <Route path="/careers" element={<CareersPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/comparison" element={<ComparisonPage />} />
-          <Route path="/ai-chat" element={<AIChatPage />} />
-          <Route path="/ai-image" element={<AIImagePage />} />
-          <Route path="/ai-video" element={<AIVideoPage />} />
-          <Route path="/ai-coding" element={<AICodingPage theme={theme} />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
-        <LargeNameFooter />
-      </BrowserRouter>
-    </LanguageProvider>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <LanguageProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Hero />
+                <TrustedBy />
+                <Features />
+                {/* <HowItWorks /> */}
+                <UseCases />
+                <PricingSection11 />
+              </>
+            } />
+            <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/changelog" element={<ChangelogPage />} />
+            <Route path="/demo" element={<DemoPage />} />
+            <Route path="/use-cases" element={<UseCasesPage />} />
+            <Route path="/careers" element={<CareersPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/comparison" element={<ComparisonPage />} />
+            <Route path="/ai-chat" element={<AIChatPage />} />
+            <Route path="/ai-image" element={<AIImagePage />} />
+            <Route path="/ai-video" element={<AIVideoPage />} />
+            <Route path="/ai-coding" element={<AICodingPage theme={theme} />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+          <LargeNameFooter />
+        </BrowserRouter>
+      </LanguageProvider>
+    </ClerkProvider>
   );
 }
 
