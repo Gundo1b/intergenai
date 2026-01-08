@@ -21,7 +21,7 @@ const values = [
   {
     icon: Heart,
     title: "Human-Centered",
-    description: "We  AI should enhance human creativity, not replace it."
+    description: "We  AI should enhance human , not replace it."
   },
   {
     icon: Zap,
