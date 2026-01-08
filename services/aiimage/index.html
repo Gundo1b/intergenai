@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Intergen Image Generator UI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="brand-dot"></span>
+      <span class="brand">Intergen Image</span>
+    </div>
+
+    <div class="topbar-right">
+      <button class="btn btn-ghost" id="themeBtn" title="Toggle theme">
+        <span id="themeIcon">🌙</span>
+        <span class="hide-sm" id="themeLabel">Dark</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <!-- LEFT: Input -->
+    <section class="panel panel-left">
+      <div class="panel-head">
+        <h2>Input</h2>
+
+        <div class="head-actions">
+          <button class="btn btn-ghost" id="modeBtn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="modeLabel">Form</span>
+          </button>
+
+          <div class="menu" id="modeMenu" role="listbox" aria-label="Mode" hidden>
+            <button class="menu-item" data-mode="Form">Form</button>
+            <button class="menu-item" data-mode="JSON">JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="field">
+          <div class="label-row">
+            <label for="prompt">Prompt</label>
+            <span class="info">i</span>
+          </div>
+
+          <textarea id="prompt" rows="5"
+            placeholder="Describe the image you want… (Ctrl+Enter to run)"></textarea>
+        </div>
+
+        <div class="subsection">
+          <div class="subhead">
+            <div>
+              <div class="subhead-title">Additional Settings</div>
+              <div class="subhead-muted">Customize your input with more control.</div>
+            </div>
+
+            <button class="btn btn-ghost" id="moreBtn" aria-expanded="false">
+              More <span class="chev">▾</span>
+            </button>
+          </div>
+
+          <div class="advanced" id="advanced" hidden>
+            <div class="grid">
+              <div class="field">
+                <label for="size">Size</label>
+                <select id="size">
+                  <option value="1024x1024">1024×1024</option>
+                  <option value="1024x1536">1024×1536</option>
+                  <option value="1536x1024">1536×1024</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="format">Output</label>
+                <select id="format">
+                  <option value="png">PNG</option>
+                  <option value="jpeg">JPEG</option>
+                  <option value="webp">WEBP</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="seed">Seed</label>
+                <input id="seed" type="number" placeholder="Optional" />
+              </div>
+
+              <div class="field">
+                <label for="steps">Steps</label>
+                <input id="steps" type="number" value="30" min="1" max="200" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-actions">
+          <button class="btn btn-ghost" id="resetBtn">Reset</button>
+
+          <button class="btn btn-primary" id="runBtn">
+            Run
+            <span class="kbd">ctrl</span>
+            <span class="kbd">↵</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Result -->
+    <section class="panel panel-right">
+      <div class="panel-head">
+        <div class="result-title">
+          <h2>Result</h2>
+          <span class="badge" id="statusBadge">Idle</span>
+        </div>
+
+        <div class="head-actions">
+          <div class="segmented" role="tablist" aria-label="Result view">
+            <button class="seg-btn active" id="previewTab" role="tab" aria-selected="true">Preview</button>
+            <button class="seg-btn" id="jsonTab" role="tab" aria-selected="false">JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body panel-body-right">
+        <div class="result-stage" id="stage">
+          <div class="stage-icon" aria-hidden="true">
+            <img src="images/Logo - PNG.png" alt="Logo" class="logo" />
+          </div>
+          <div class="stage-text" id="stageText">Waiting for your input...</div>
+
+          <img id="previewImage" class="preview-img" alt="Generated result" hidden />
+          <pre id="jsonOutput" class="json" hidden></pre>
+        </div>
+
+        
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

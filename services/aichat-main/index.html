@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Integen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+</head>
+
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">Integen</div>
+
+      <select id="modelSelector" class="logo-dropdown" aria-label="Select AI Model">
+        <option value="allenai/olmo-3.1-32b-think:free">OLMo 3.1 32B Think (free)</option>
+        <option value="nex-agi/deepseek-v3.1-nex-n1:free">DeepSeek V3.1 NEX N1 (free)</option>
+        <option value="allenai/olmo-3-32b-think:free">OLMo 3 32B Think (free)</option>
+        <option value="openai/gpt-oss-120b:free">GPT OSS 120B (free)</option>
+      </select>
+
+      <button class="new-chat" id="newChatBtn">+ New chat</button>
+      <div id="savedConversations" class="saved-conversations"></div>
+
+      <!-- Theme Switcher (input BEFORE label so CSS works) -->
+      <div class="theme-switcher-container">
+        <input type="checkbox" id="theme-switcher" class="theme-switcher-checkbox" />
+        <label for="theme-switcher" class="theme-label">
+          <i class="fas fa-sun sun-icon"></i>
+          <div class="switch-track">
+            <div class="switch-thumb"></div>
+          </div>
+          <i class="fas fa-moon moon-icon"></i>
+        </label>
+      </div>
+    </aside>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Chat Area -->
+    <main class="chat">
+      <!-- Mobile Header -->
+      <header class="mobile-header">
+        <button class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+        <div class="mobile-logo">Integen</div>
+      </header>
+
+      <!-- Welcome Screen -->
+      <div id="welcome" class="container">
+        <h1>What’s On The Agenda Today Let Integen Help.</h1>
+        <div class="input-box">
+          <span class="icon left">📎</span>
+          <input id="welcomeInput" type="text" placeholder="Ask Integen a question..." autocomplete="off" />
+          <div class="actions">
+            <button class="project-btn">+ Project</button>
+            <button id="welcomeSendBtn" class="send-btn">↑</button>
+          </div>
+        </div>
+        <div class="pill-row">
+          <button class="pill">What is the weather today?</button>
+          <button class="pill">Explain quantum computing</button>
+          <button class="pill">Write a haiku about AI</button>
+          <button class="pill">How to make pizza?</button>
+          <button class="pill">Tell me a joke</button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chatScroll">
+        <div class="chat-rail" id="chat"></div>
+      </div>
+
+      <!-- Input -->
+      <div class="input-wrapper">
+        <div class="input-inner">
+          <input id="userInput" type="text" placeholder="Message..." autocomplete="off" />
+          <button id="attachBtn" aria-label="Attach file"><i class="fas fa-paperclip"></i></button>
+          <button id="micBtn" aria-label="Use microphone"><i class="fas fa-microphone"></i></button>
+          <button id="sendBtn" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+
+          <!-- Hidden file input -->
+          <input id="fileInput" type="file" hidden />
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
